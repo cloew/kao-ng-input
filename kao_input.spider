@@ -1,0 +1,40 @@
+use angular;
+
+angular.module('kao.input', [])
+    .directive('keyTrap', fn() {
+        return fn(scope, elem) {
+            elem.bind('keydown', fn(event) {
+                scope.$broadcast('keydown', event);
+            });
+        };
+    })
+    .directive('onEnterKey', fn($timeout) {
+        return fn(scope, element, attrs) {
+            scope.$on('keydown', fn(msg, event) {
+                if event.which == 13 {
+                    scope.$evalAsync(attrs.onEnterKey, {'event': event});
+                    event.preventDefault();
+                }
+            });
+        };
+    })
+    .directive('onUpKey', fn($timeout) {
+        return fn(scope, element, attrs) {
+            scope.$on('keydown', fn(msg, event) {
+                if event.which == 38 {
+                    scope.$evalAsync(attrs.onUpKey, {'event': event});
+                    event.preventDefault();
+                }
+            });
+        };
+    })
+    .directive('onDownKey', fn($timeout) {
+        return fn(scope, element, attrs) {
+            scope.$on('keydown', fn(msg, event) {
+                if event.which == 40 {
+                    scope.$evalAsync(attrs.onDownKey, {'event': event});
+                    event.preventDefault();
+                }
+            });
+        };
+    });
